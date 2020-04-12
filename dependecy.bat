@@ -25,9 +25,6 @@ echo INSTALLING JSDoc ...
 call npm install -g jsdoc
 IF %ERRORLEVEL% NEQ 0 Echo An error was found
 IF %ERRORLEVEL% EQU 0 Echo No error found
-echo INSTALLING Modernizr ...
-call npm install -g modernizr
-IF %ERRORLEVEL% NEQ 0 Echo An error was found
-IF %ERRORLEVEL% EQU 0 Echo No error found
 echo DONE!
+echo After you have installed the dependencies, press a key to shut down this process. Please restart it again afterwards.
 pause
