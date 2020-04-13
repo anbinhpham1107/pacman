@@ -25,6 +25,7 @@ Pacman.FPS = 30;
 
 /**
  * @class
+ * @hideconstructor
  * @classdesc This class defines all the Ghosts in the game
  */
 Pacman.Ghost = function (game, map, colour) {
@@ -269,19 +270,28 @@ Pacman.Ghost = function (game, map, colour) {
         };
     };
     
-    return {
-        "eat"         : eat,
-        "isVunerable" : isVunerable,
-        "isDangerous" : isDangerous,
-        "makeEatable" : makeEatable,
-        "reset"       : reset,
-        "move"        : move,
-        "draw"        : draw
+    /**
+     * @constructs
+     * @desc This is the default constructor for the Ghost class
+     */
+    function Ghost() {
+        return {
+            "eat"         : eat,
+            "isVunerable" : isVunerable,
+            "isDangerous" : isDangerous,
+            "makeEatable" : makeEatable,
+            "reset"       : reset,
+            "move"        : move,
+            "draw"        : draw
+        };
     };
+
+    return Ghost();
 };
 
 /**
  * @class
+ * @hideconstructor
  * @classdesc This class defines pacman; the player
  */
 Pacman.User = function (game, map) {
@@ -521,24 +531,33 @@ Pacman.User = function (game, map) {
     
     initUser();
 
-    return {
-        "draw"          : draw,
-        "drawDead"      : drawDead,
-        "loseLife"      : loseLife,
-        "getLives"      : getLives,
-        "score"         : score,
-        "addScore"      : addScore,
-        "theScore"      : theScore,
-        "keyDown"       : keyDown,
-        "move"          : move,
-        "newLevel"      : newLevel,
-        "reset"         : reset,
-        "resetPosition" : resetPosition
+    /**
+     * @constructs
+     * @desc This is the default constructor for the User class
+     */
+    function User() {
+        return {
+            "draw"          : draw,
+            "drawDead"      : drawDead,
+            "loseLife"      : loseLife,
+            "getLives"      : getLives,
+            "score"         : score,
+            "addScore"      : addScore,
+            "theScore"      : theScore,
+            "keyDown"       : keyDown,
+            "move"          : move,
+            "newLevel"      : newLevel,
+            "reset"         : reset,
+            "resetPosition" : resetPosition
+        };
     };
+
+    return User();
 };
 
 /**
  * @class
+ * @hideconstructor
  * @classdesc This class defines the map; the playable area
  */
 Pacman.Map = function (size) {
@@ -685,23 +704,32 @@ Pacman.Map = function (size) {
 
     reset();
     
+    /**
+     * @constructs
+     * @desc This is the default constructor for the Map class
+     */
+    function Map() {
     return {
-        "draw"         : draw,
-        "drawBlock"    : drawBlock,
-        "drawPills"    : drawPills,
-        "block"        : block,
-        "setBlock"     : setBlock,
-        "reset"        : reset,
-        "isWallSpace"  : isWall,
-        "isFloorSpace" : isFloorSpace,
-        "height"       : height,
-        "width"        : width,
-        "blockSize"    : blockSize
+            "draw"         : draw,
+            "drawBlock"    : drawBlock,
+            "drawPills"    : drawPills,
+            "block"        : block,
+            "setBlock"     : setBlock,
+            "reset"        : reset,
+            "isWallSpace"  : isWall,
+            "isFloorSpace" : isFloorSpace,
+            "height"       : height,
+            "width"        : width,
+            "blockSize"    : blockSize
+        };
     };
+
+    return Map();
 };
 
 /**
  * @class
+ * @hideconstructor
  * @classdesc This class defines all of the audio for the game
  */
 Pacman.Audio = function(game) {
@@ -777,13 +805,21 @@ Pacman.Audio = function(game) {
         }        
     };
     
-    return {
-        "disableSound" : disableSound,
-        "load"         : load,
-        "play"         : play,
-        "pause"        : pause,
-        "resume"       : resume
+    /**
+     * @constructs
+     * @desc This is the default constructor for the Audio class
+     */
+    function Audio() {
+        return {
+            "disableSound" : disableSound,
+            "load"         : load,
+            "play"         : play,
+            "pause"        : pause,
+            "resume"       : resume
+        };
     };
+
+    return Audio();
 };
 
 var PACMAN = (function () {
