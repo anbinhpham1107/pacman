@@ -23,6 +23,10 @@ var NONE        = 4,
 
 Pacman.FPS = 30;
 
+/**
+ * @class
+ * @classdesc This class defines all the Ghosts in the game
+ */
 Pacman.Ghost = function (game, map, colour) {
 
     var position  = null,
@@ -276,6 +280,10 @@ Pacman.Ghost = function (game, map, colour) {
     };
 };
 
+/**
+ * @class
+ * @classdesc This class defines pacman; the player
+ */
 Pacman.User = function (game, map) {
     
     var position  = null,
@@ -529,6 +537,10 @@ Pacman.User = function (game, map) {
     };
 };
 
+/**
+ * @class
+ * @classdesc This class defines the map; the playable area
+ */
 Pacman.Map = function (size) {
     
     var height    = null, 
@@ -688,6 +700,10 @@ Pacman.Map = function (size) {
     };
 };
 
+/**
+ * @class
+ * @classdesc This class defines all of the audio for the game
+ */
 Pacman.Audio = function(game) {
     
     var files          = [], 
