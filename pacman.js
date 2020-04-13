@@ -8,24 +8,72 @@
  * do proper ghost mechanics (blinky/wimpy etc)
  */
 
-var NONE        = 4,
-    UP          = 3,
-    LEFT        = 2,
-    DOWN        = 1,
-    RIGHT       = 11,
-    WAITING     = 5,
-    PAUSE       = 6,
-    PLAYING     = 7,
-    COUNTDOWN   = 8,
-    EATEN_PAUSE = 9,
-    DYING       = 10,
-    Pacman      = {};
+/**
+ * @global
+ */
+var NONE        = 4;
+/**
+ * @global
+ */
+var UP          = 3;
+/**
+ * @global
+ */
+var LEFT        = 2;
+/**
+ * @global
+ */
+var DOWN        = 1;
+/**
+ * @global
+ */
+var RIGHT       = 11;
+/**
+ * @global
+ */
+var WAITING     = 5;
+/**
+ * @global
+ */
+var PAUSE       = 6;
+/**
+ * @global
+ */
+var PLAYING     = 7;
+/**
+ * @global
+ */
+var COUNTDOWN   = 8;
+/**
+ * @global
+ */
+var EATEN_PAUSE = 9;
+/**
+ * @global
+ */
+var DYING       = 10;
+/**
+ * @global
+ */
+var Pacman      = {};
 
+/**
+ * @global
+ * @memberof! Pacman
+ */
 Pacman.FPS = 30;
 
 /**
+ * @global
+ * @memberof! Pacman
+ */
+Pacman.Ghost = {};
+
+/**
+ * @ignore
  * @class
  * @hideconstructor
+ * @name Ghost
  * @classdesc This class defines all the Ghosts in the game
  */
 Pacman.Ghost = function (game, map, colour) {
@@ -36,6 +84,11 @@ Pacman.Ghost = function (game, map, colour) {
         eaten     = null,
         due       = null;
     
+    /**
+     * @memberof Ghost#
+     * @param {number} dir
+     * @param {hashmap} current
+     */
     function getNewCoord(dir, current) { 
         
         var speed  = isVunerable() ? 1 : isHidden() ? 4 : 2,
@@ -271,7 +324,7 @@ Pacman.Ghost = function (game, map, colour) {
     };
     
     /**
-     * @constructs
+     * @constructs Ghost
      * @desc This is the default constructor for the Ghost class
      */
     function Ghost() {
@@ -290,8 +343,16 @@ Pacman.Ghost = function (game, map, colour) {
 };
 
 /**
+ * @global
+ * @memberof! Pacman
+ */
+Pacman.User = {};
+
+/**
+ * @ignore
  * @class
  * @hideconstructor
+ * @name User
  * @classdesc This class defines pacman; the player
  */
 Pacman.User = function (game, map) {
@@ -532,7 +593,7 @@ Pacman.User = function (game, map) {
     initUser();
 
     /**
-     * @constructs
+     * @constructs User
      * @desc This is the default constructor for the User class
      */
     function User() {
