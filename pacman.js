@@ -68,6 +68,21 @@ Pacman.FPS = 30;
  * @memberof! Pacman
  */
 Pacman.Ghost = {};
+/**
+ * @global
+ * @memberof! Pacman
+ */
+Pacman.User = {};
+/**
+ * @global
+ * @memberof! Pacman
+ */
+Pacman.Map = {};
+/**
+ * @global
+ * @memberof! Pacman
+ */
+Pacman.Audio = {};
 
 /**
  * @ignore
@@ -343,12 +358,6 @@ Pacman.Ghost = function (game, map, colour) {
 };
 
 /**
- * @global
- * @memberof! Pacman
- */
-Pacman.User = {};
-
-/**
  * @ignore
  * @class
  * @hideconstructor
@@ -617,8 +626,10 @@ Pacman.User = function (game, map) {
 };
 
 /**
+ * @ignore
  * @class
  * @hideconstructor
+ * @name Map
  * @classdesc This class defines the map; the playable area
  */
 Pacman.Map = function (size) {
@@ -766,7 +777,7 @@ Pacman.Map = function (size) {
     reset();
     
     /**
-     * @constructs
+     * @constructs Map
      * @desc This is the default constructor for the Map class
      */
     function Map() {
@@ -789,8 +800,10 @@ Pacman.Map = function (size) {
 };
 
 /**
+ * @ignore
  * @class
  * @hideconstructor
+ * @name Audio
  * @classdesc This class defines all of the audio for the game
  */
 Pacman.Audio = function(game) {
@@ -867,7 +880,7 @@ Pacman.Audio = function(game) {
     };
     
     /**
-     * @constructs
+     * @constructs Audio
      * @desc This is the default constructor for the Audio class
      */
     function Audio() {
