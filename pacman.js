@@ -10,6 +10,12 @@
 
 /**
  * @global
+ * @desc Human readable keyCode index
+ */
+var KEY = {'BACKSPACE': 8, 'TAB': 9, 'NUM_PAD_CLEAR': 12, 'ENTER': 13, 'SHIFT': 16, 'CTRL': 17, 'ALT': 18, 'PAUSE': 19, 'CAPS_LOCK': 20, 'ESCAPE': 27, 'SPACEBAR': 32, 'PAGE_UP': 33, 'PAGE_DOWN': 34, 'END': 35, 'HOME': 36, 'ARROW_LEFT': 37, 'ARROW_UP': 38, 'ARROW_RIGHT': 39, 'ARROW_DOWN': 40, 'PRINT_SCREEN': 44, 'INSERT': 45, 'DELETE': 46, 'SEMICOLON': 59, 'WINDOWS_LEFT': 91, 'WINDOWS_RIGHT': 92, 'SELECT': 93, 'NUM_PAD_ASTERISK': 106, 'NUM_PAD_PLUS_SIGN': 107, 'NUM_PAD_HYPHEN-MINUS': 109, 'NUM_PAD_FULL_STOP': 110, 'NUM_PAD_SOLIDUS': 111, 'NUM_LOCK': 144, 'SCROLL_LOCK': 145, 'SEMICOLON': 186, 'EQUALS_SIGN': 187, 'COMMA': 188, 'HYPHEN-MINUS': 189, 'FULL_STOP': 190, 'SOLIDUS': 191, 'GRAVE_ACCENT': 192, 'LEFT_SQUARE_BRACKET': 219, 'REVERSE_SOLIDUS': 220, 'RIGHT_SQUARE_BRACKET': 221, 'APOSTROPHE': 222};
+
+/**
+ * @global
  */
 var NONE        = 4;
 /**
@@ -362,23 +368,70 @@ Pacman.Ghost = function (game, map, colour) {
  * @class
  * @hideconstructor
  * @name User
- * @classdesc This class defines pacman; the player
+ * @classdesc This class defines pacman; the player.
  */
 Pacman.User = function (game, map) {
     
-    var position  = null,
-        direction = null,
-        eaten     = null,
-        due       = null, 
-        lives     = null,
-        score     = 5,
-        keyMap    = {};
+	/**
+	 * @memberof User#
+	 * @type {hashmap}
+	 * @desc position is a hashmap that holds the x and y position of the User.
+	 */
+    var position  = null;
+	/**
+	 * @memberof User#
+	 * @type {number}
+	 * @desc direction is a a number that corresponds with the key in the
+	 *       global KEY. It represents the direction that the User is moving.
+	 */
+    var direction = null;
+	/**
+	 * @memberof User#
+	 * @type {number}
+	 * @desc eaten represents the number of BISCUITs that the User has collected
+	 *       in the current level.
+	 */
+    var eaten     = null;
+	/**
+	 * @memberof User#
+	 * @type {number}
+	 * @desc due represents the overall direction that the User is traveling.
+	 *       It corresponds with the global LEFT, RIGHT, UP, DOWN.
+	 */
+    var due       = null;
+	/**
+	 * @memberof User#
+	 * @type {number}
+	 * @desc lives is a number that represents how many lives the User has left.
+	 */
+    var lives     = null;
+	/**
+	 * @memberof User#
+	 * @type {number}
+	 * @desc score represents the User's total score throughout the game.
+	 */
+    var score     = 5;
+	/**
+	 * @memberof User#
+	 * @type {hashmap}
+	 * @desc keyMap is a hashmap that holds the numerical values for the arrow key presses
+	 *       in global KEY and correspond them to the numerical values for the directions
+	 *       that the User can move.
+	 */
+    var keyMap    = {};
     
     keyMap[KEY.ARROW_LEFT]  = LEFT;
     keyMap[KEY.ARROW_UP]    = UP;
     keyMap[KEY.ARROW_RIGHT] = RIGHT;
     keyMap[KEY.ARROW_DOWN]  = DOWN;
 
+    /**
+     * @function
+     * @memberof User#
+     * @param {number} nScore - number to be added to the User's current score.
+     * @desc add nScore to the User's current score. If the User's score becomes
+     *       a multiple of 10000, then add 1 to the User's lives.
+     */
     function addScore(nScore) { 
         score += nScore;
         if (score >= 10000 && score - nScore < 10000) { 
@@ -386,40 +439,85 @@ Pacman.User = function (game, map) {
         }
     };
 
+    /**
+     * @function
+     * @memberof User#
+     * @returns {number} the User's score
+     */
     function theScore() { 
         return score;
     };
 
+    /**
+     * @function
+     * @memberof User#
+     * @desc subtract one from the User's lives
+     */
     function loseLife() { 
         lives -= 1;
     };
 
+    /**
+     * @function
+     * @memberof User#
+     * @returns {number} the User's lives
+     */
     function getLives() {
         return lives;
     };
 
+    /**
+     * @function
+     * @memberof User#
+     * @desc set the User's score to 0 and lives to 3.
+     *       Calls newLevel() to set more of the User's values.
+     */
     function initUser() {
         score = 0;
         lives = 3;
         newLevel();
     }
     
+    /**
+     * @function
+     * @memberof User#
+     * @desc set the User's eaten attribute to 0.
+     *       Calls resetPosition() to set other attributes of the User.
+     */
     function newLevel() {
         resetPosition();
         eaten = 0;
     };
     
+    /**
+     * @function
+     * @memberof User#
+     * @desc set the User's direction and due attributes to global LEFT.
+     *       Set the User's position's 'x' key to 90.
+     *       Set the User's position's 'y' key to 120.
+     */
     function resetPosition() {
         position = {"x": 90, "y": 120};
         direction = LEFT;
         due = LEFT;
     };
     
+    /**
+     * @function
+     * @memberof User#
+     * @desc calls initUser() and resetPosition() to set all of the User's
+     *       attributes to their initial values.
+     */
     function reset() {
         initUser();
         resetPosition();
     };        
     
+    /**
+     * @function
+     * @memberof User
+     * @param {keyDown event} e - 
+     */
     function keyDown(e) {
         if (typeof keyMap[e.keyCode] !== "undefined") { 
             due = keyMap[e.keyCode];
@@ -1220,9 +1318,6 @@ var PACMAN = (function () {
     };
     
 }());
-
-/* Human readable keyCode index */
-var KEY = {'BACKSPACE': 8, 'TAB': 9, 'NUM_PAD_CLEAR': 12, 'ENTER': 13, 'SHIFT': 16, 'CTRL': 17, 'ALT': 18, 'PAUSE': 19, 'CAPS_LOCK': 20, 'ESCAPE': 27, 'SPACEBAR': 32, 'PAGE_UP': 33, 'PAGE_DOWN': 34, 'END': 35, 'HOME': 36, 'ARROW_LEFT': 37, 'ARROW_UP': 38, 'ARROW_RIGHT': 39, 'ARROW_DOWN': 40, 'PRINT_SCREEN': 44, 'INSERT': 45, 'DELETE': 46, 'SEMICOLON': 59, 'WINDOWS_LEFT': 91, 'WINDOWS_RIGHT': 92, 'SELECT': 93, 'NUM_PAD_ASTERISK': 106, 'NUM_PAD_PLUS_SIGN': 107, 'NUM_PAD_HYPHEN-MINUS': 109, 'NUM_PAD_FULL_STOP': 110, 'NUM_PAD_SOLIDUS': 111, 'NUM_LOCK': 144, 'SCROLL_LOCK': 145, 'SEMICOLON': 186, 'EQUALS_SIGN': 187, 'COMMA': 188, 'HYPHEN-MINUS': 189, 'FULL_STOP': 190, 'SOLIDUS': 191, 'GRAVE_ACCENT': 192, 'LEFT_SQUARE_BRACKET': 219, 'REVERSE_SOLIDUS': 220, 'RIGHT_SQUARE_BRACKET': 221, 'APOSTROPHE': 222};
 
 (function () {
 	/* 0 - 9 */
