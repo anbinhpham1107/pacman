@@ -70,45 +70,77 @@ var Pacman      = {};
 Pacman.FPS = 30;
 
 /**
- * @global
- * @memberof! Pacman
+ * @class
+ * @classdesc This class defines all the Ghosts in the game
  */
 Pacman.Ghost = {};
 /**
- * @global
- * @memberof! Pacman
+ * @class
+ * @classdesc This class defines pacman; the player.
  */
 Pacman.User = {};
 /**
- * @global
- * @memberof! Pacman
+ * @class
+ * @classdesc This class defines the map; the playable area
  */
 Pacman.Map = {};
 /**
- * @global
- * @memberof! Pacman
+ * @class
+ * @classdesc This class defines all of the audio for the game
  */
 Pacman.Audio = {};
 
-/**
- * @ignore
- * @class
- * @hideconstructor
- * @name Ghost
- * @classdesc This class defines all the Ghosts in the game
- */
 Pacman.Ghost = function (game, map, colour) {
 
-    var position  = null,
-        direction = null,
-        eatable   = null,
-        eaten     = null,
-        due       = null;
+    /**
+     * @memberof Pacman.Ghost#
+     * @type {hashmap}
+	 * @desc position is a hashmap that holds the x and y position of the Ghost.
+     */
+    var position  = null;
+
+    /**
+     * @memberof Pacman.Ghost#
+     * @type {number}
+	 * @desc direction is a a number that corresponds with the key in the
+	 *       global KEY. It represents the direction that the User is moving.
+     */
+    var direction = null;
+
+    /**
+     * @memberof Pacman.Ghost#
+     * @type {number}
+     * @desc eatable is a number, but it is used like a boolean. If eatable is null, then the Ghost is
+     *       able to be eaten.
+     */
+    var eatable   = null;
+
+    /**
+     * @memberof Pacman.Ghost#
+     * @type {number}
+     * @desc eaten is a number, but it is used like a boolean. If eaten is null, then the Ghost
+     *       has not been eaten yet.
+     */
+    var eaten     = null;
+
+    /**
+     * @memberof Pacman.Ghost#
+     * @type {number}
+	 * @desc due represents the overall direction that the User is traveling.
+	 *       It corresponds with the global LEFT, RIGHT, UP, DOWN.
+     */
+    var due       = null;
     
     /**
-     * @memberof Ghost#
-     * @param {number} dir
-     * @param {hashmap} current
+     * @function
+     * @memberof Pacman.Ghost#
+     * @param {number} dir - the Ghost's direction attribute
+     * @param {hashmap} current - the Ghost's position attribute
+     * @returns {hashmap} a new hashmap with updated coordinates for the Ghost. The Ghost's position
+     *                    attribute should be assigned this new hashmap.
+     * @desc this updates the Ghost's coordinate position by subtracting or adding 1 or 2
+     *       to the Ghost's current x and y coordinates, based on the direction that
+     *       the Ghost is traveling and if it is vulnerable or not.
      */
     function getNewCoord(dir, current) { 
         
@@ -345,8 +377,11 @@ Pacman.Ghost = function (game, map, colour) {
     };
     
     /**
-     * @constructs Ghost
-     * @desc This is the default constructor for the Ghost class
+     * @function
+     * @memberof Pacman.Ghost#
+     * @desc This is essentially the default constructor for the Ghost class.
+     *       It automatically gets called when the following code is executed:
+     *       <br>new Pacman.Ghost();</br>
      */
     function Ghost() {
         return {
@@ -363,56 +398,55 @@ Pacman.Ghost = function (game, map, colour) {
     return Ghost();
 };
 
-/**
- * @ignore
- * @class
- * @hideconstructor
- * @name User
- * @classdesc This class defines pacman; the player.
- */
 Pacman.User = function (game, map) {
     
 	/**
-	 * @memberof User#
+	 * @memberof Pacman.User#
 	 * @type {hashmap}
 	 * @desc position is a hashmap that holds the x and y position of the User.
 	 */
     var position  = null;
+
 	/**
-	 * @memberof User#
+	 * @memberof Pacman.User#
 	 * @type {number}
 	 * @desc direction is a a number that corresponds with the key in the
 	 *       global KEY. It represents the direction that the User is moving.
 	 */
     var direction = null;
+
 	/**
-	 * @memberof User#
+	 * @memberof Pacman.User#
 	 * @type {number}
 	 * @desc eaten represents the number of BISCUITs that the User has collected
 	 *       in the current level.
 	 */
     var eaten     = null;
+
 	/**
-	 * @memberof User#
+	 * @memberof Pacman.User#
 	 * @type {number}
 	 * @desc due represents the overall direction that the User is traveling.
 	 *       It corresponds with the global LEFT, RIGHT, UP, DOWN.
 	 */
     var due       = null;
+
 	/**
-	 * @memberof User#
+	 * @memberof Pacman.User#
 	 * @type {number}
 	 * @desc lives is a number that represents how many lives the User has left.
 	 */
     var lives     = null;
+
 	/**
-	 * @memberof User#
+	 * @memberof Pacman.User#
 	 * @type {number}
 	 * @desc score represents the User's total score throughout the game.
 	 */
     var score     = 5;
+
 	/**
-	 * @memberof User#
+	 * @memberof Pacman.User#
 	 * @type {hashmap}
 	 * @desc keyMap is a hashmap that holds the numerical values for the arrow key presses
 	 *       in global KEY and correspond them to the numerical values for the directions
@@ -427,7 +461,7 @@ Pacman.User = function (game, map) {
 
     /**
      * @function
-     * @memberof User#
+     * @memberof Pacman.User#
      * @param {number} nScore - number to be added to the User's current score.
      * @desc add nScore to the User's current score. If the User's score becomes
      *       a multiple of 10000, then add 1 to the User's lives.
@@ -441,7 +475,7 @@ Pacman.User = function (game, map) {
 
     /**
      * @function
-     * @memberof User#
+     * @memberof Pacman.User#
      * @returns {number} the User's score
      */
     function theScore() { 
@@ -450,7 +484,7 @@ Pacman.User = function (game, map) {
 
     /**
      * @function
-     * @memberof User#
+     * @memberof Pacman.User#
      * @desc subtract one from the User's lives
      */
     function loseLife() { 
@@ -459,7 +493,7 @@ Pacman.User = function (game, map) {
 
     /**
      * @function
-     * @memberof User#
+     * @memberof Pacman.User#
      * @returns {number} the User's lives
      */
     function getLives() {
@@ -468,7 +502,7 @@ Pacman.User = function (game, map) {
 
     /**
      * @function
-     * @memberof User#
+     * @memberof Pacman.User#
      * @desc set the User's score to 0 and lives to 3.
      *       Calls newLevel() to set more of the User's values.
      */
@@ -480,7 +514,7 @@ Pacman.User = function (game, map) {
     
     /**
      * @function
-     * @memberof User#
+     * @memberof Pacman.User#
      * @desc set the User's eaten attribute to 0.
      *       Calls resetPosition() to set other attributes of the User.
      */
@@ -491,7 +525,7 @@ Pacman.User = function (game, map) {
     
     /**
      * @function
-     * @memberof User#
+     * @memberof Pacman.User#
      * @desc set the User's direction and due attributes to global LEFT.
      *       Set the User's position's 'x' key to 90.
      *       Set the User's position's 'y' key to 120.
@@ -504,7 +538,7 @@ Pacman.User = function (game, map) {
     
     /**
      * @function
-     * @memberof User#
+     * @memberof Pacman.User#
      * @desc calls initUser() and resetPosition() to set all of the User's
      *       attributes to their initial values.
      */
@@ -515,8 +549,12 @@ Pacman.User = function (game, map) {
     
     /**
      * @function
-     * @memberof User
-     * @param {keyDown event} e - 
+     * @memberof Pacman.User
+     * @param {Object} e - an event listener in the main script captures the
+     *                     data of when a key is pressed. 'e' is that data.
+     * @returns {boolean} false if the key that is pressed is defined in global KEY, true otherwise.
+     * @desc This function checks if the player has pressed a valid key or not by checking if the
+     *       pressed key is defined in global KEY.
      */
     function keyDown(e) {
         if (typeof keyMap[e.keyCode] !== "undefined") { 
@@ -528,6 +566,18 @@ Pacman.User = function (game, map) {
         return true;
 	};
 
+    /**
+     * @function
+     * @memberof Pacman.User
+     * @param {number} dir - the User's current direction attribute.
+     * @param {hashmap} current - the User's position attribute.
+     * @returns {hashmap} a new hashmap with updated coordinates for the User. The User's position
+     *                    attribute should be assigned this new hashmap.
+     * @desc this updates the User's coordinate position by subtracting or adding 2
+     *       to the User's current x and y coordinates, based on the direction that
+     *       the User is traveling. Coordinates do not change if the User can not or
+     *       is not moving.
+     */
     function getNewCoord(dir, current) {   
         return {
             "x": current.x + (dir === LEFT && -2 || dir === RIGHT && 2 || 0),
@@ -535,14 +585,45 @@ Pacman.User = function (game, map) {
         };
     };
 
+    /**
+     * @function
+     * @memberof Pacman.User
+     * @param {number} x - User's coordinate position on the x OR y coordinate plane.
+     * @returns {boolean} - true if the User is on a 'whole square', otherwise false.
+     * @desc This function mods parameter x by 10 and checks if that evaluates to 0.
+     *       Mod by 10 because a 'whole sqaure' is definded as a 10x10 square.
+     */
     function onWholeSquare(x) {
         return x % 10 === 0;
     };
 
+    /**
+     * @function
+     * @memberof Pacman.User
+     * @param {number} x - User's coordinate position on the x OR y coordinate plane.
+     * @returns {number} parameter x rounded to the nearest whole number.
+     * @desc Simply round parameter x to the nearest whole number. Dealing with whole
+     *       numbers helps simplify other calculations when drawing the User and Ghosts
+     *       to the game screen.
+     */
     function pointToCoord(x) {
         return Math.round(x/10);
     };
     
+    /**
+     * @function
+     * @memberof Pacman.User
+     * @param {number} x - User's coordinate position on the x OR y coordinate plane.
+     * @param {number} dir - User's current direction attribute.
+     * @returns {number} the coordinate position of the next square the User should travel to.
+     * @desc Mod parameter x by 10 (rem = x % 10) since a 'whole square' is defined as a 10x10 square. Then handle
+     *       these three cases: a) rem == 0. If that is the case, then the User is already in the
+     *       center of a square so return x. b) rem != 0 and (dir == global RIGHT or dir == global DOWN).
+     *       If that is the case, then subract rem from 10 to find out the distance the User is from
+     *       the next square. Then add that to x and return. c) rem != 0 and (dir == global LEFT or dir == global UP).
+     *       If that is the case, then simply subtract rem from x to find out the distance the User is
+     *       from the next square and return.
+     */
     function nextSquare(x, dir) {
         var rem = x % 10;
         if (rem === 0) { 
@@ -554,6 +635,15 @@ Pacman.User = function (game, map) {
         }
     };
 
+    /**
+     * @function
+     * @memberof Pacman.User
+     * @param {hashmap} pos - User's position attribute
+     * @param {number} dir - User's direction attribute
+     * @returns {hashmap} a hashmap with the newly updated coordinates for the User
+     * @desc create and return a new hashmap that has correctly updated coordinates for the User.
+     *       Calls pointToCoord(nextSquare()) twice (passing the User's x and y coordinates) to calculate.
+     */
     function next(pos, dir) {
         return {
             "y" : pointToCoord(nextSquare(pos.y, dir)),
@@ -561,10 +651,26 @@ Pacman.User = function (game, map) {
         };                               
     };
 
+    /**
+     * @function
+     * @memberof Pacman.User
+     * @returns {boolean} true if User is in the center of a square, otherwise false.
+     * @desc Determine if the User is in the center of a square or not.
+     *       Calss onWholeSquare() twice (passing the User's x and y coordinates) to determine.
+     */
     function onGridSquare(pos) {
         return onWholeSquare(pos.y) && onWholeSquare(pos.x);
     };
 
+    /**
+     * @function
+     * @memberof Pacman.User
+     * @param {number} due - the User's due attribute
+     * @param {number} dir - the User's direction attribute
+     * @returns {boolean} true if the User's due and direction attributes are on the same coordinate plane, otherwise false
+     * @desc Determine if the User's due and direction attributes are on the same coordinate plane or not.
+     *       (i.e. (due and dir equal global UP or global DOWN) or (due and dir equal global LEFT or global RIGHT))
+     */
     function isOnSamePlane(due, dir) { 
         return ((due === LEFT || due === RIGHT) && 
                 (dir === LEFT || dir === RIGHT)) || 
@@ -572,12 +678,23 @@ Pacman.User = function (game, map) {
              (dir === UP || dir === DOWN));
     };
 
-    function move(ctx) {
+    /**
+     * @function
+     * @memberof Pacman.User#
+     * @returns {hashmap} this is a hashmap of hashmaps. key 'old' has the User's original position attribute.
+     *                    key 'new' has the newly updated coordinate positions for the User.
+     * @desc This function simply calculates and updates the User's position attribute as needed.
+     *       NOTE: This DOES NOT yet draw the User at the new location. It only updates the User's
+     *       attributes to be drawn later. However, this funcition DOES update the game map. Meaning
+     *       if the User interacts with a BISCUIT or PILL, then the map will change the block to
+     *       show that it is empty.
+     */
+    function move() {
         
-        var npos        = null, 
-            nextWhole   = null, 
-            oldPosition = position,
-            block       = null;
+        var npos        = null;
+        var nextWhole   = null;
+        var oldPosition = position;
+        var block       = null;
         
         if (due !== direction) {
             npos = getNewCoord(due, position);
@@ -638,11 +755,30 @@ Pacman.User = function (game, map) {
         };
     };
 
+    /**
+     * @function
+     * @memberof Pacman.User
+     * @param {number} x - the User's cooridnate position on the x OR y coordinate plane
+     * @returns {boolean} true if (x % 10) > 3 or (x % 10) < 7
+     * @desc The User is considered in between two sqaures if x % 10 is greater than 3 or less than 7
+     */
     function isMidSquare(x) { 
         var rem = x % 10;
         return rem > 3 || rem < 7;
     };
 
+    /**
+     * @function
+     * @memberof Pacman.User
+     * @param {number} dir - the User's direction attribute
+     * @param {number} pos - the User's position attribute
+     * @returns {hashmap} key 'start' has the value of where the angle should start being drawn.
+     *                    key 'end' has the value of where the angle should stop being drawn.
+     *                    key 'direction' is a boolean that determines if the angle should be inversed
+     *                    depending on the User's direction attribute.
+     * @desc What is cool about this script is that it does not rely on any images. Everything is drawn.
+     *       This function determines how to draw pacman (where his mouth should be, basically).
+     */
     function calcAngle(dir, pos) { 
         if (dir == RIGHT && (pos.x % 10 < 5)) {
             return {"start":0.25, "end":1.75, "direction": false};
@@ -656,6 +792,16 @@ Pacman.User = function (game, map) {
         return {"start":0, "end":2, "direction": false};
     };
 
+    /**
+     * @function
+     * @memberof Pacman.User#
+     * @param {canvas} ctx - the area on the web page that will be the game area
+     * @param {number} amount 
+     * @desc Determine the amount of the User to be erased. Meaning how much of pacman to erase.
+     *       We do not want to erase all of pacman immediately, because the animation would not
+     *       look good. So instead we actually calculate the new angle at which to draw pacman's
+     *       mouth over and over until he disappears.
+     */
     function drawDead(ctx, amount) { 
 
         var size = map.blockSize, 
@@ -677,6 +823,12 @@ Pacman.User = function (game, map) {
         ctx.fill();    
     };
 
+    /**
+     * @function
+     * @memberof Pacman.User#
+     * @param {canvas} ctx - the area on the web page that will be the game area
+     * @desc Draw the User to the canvas based on the User's attributes.
+     */
     function draw(ctx) { 
 
         var s     = map.blockSize, 
@@ -700,8 +852,11 @@ Pacman.User = function (game, map) {
     initUser();
 
     /**
-     * @constructs User
-     * @desc This is the default constructor for the User class
+     * @function
+     * @memberof Pacman.User#
+     * @desc This is essentially the default constructor for the User class.
+     *       It automatically gets called when the following code is executed:
+     *       <br>new Pacman.User();</br>
      */
     function User() {
         return {
@@ -723,13 +878,6 @@ Pacman.User = function (game, map) {
     return User();
 };
 
-/**
- * @ignore
- * @class
- * @hideconstructor
- * @name Map
- * @classdesc This class defines the map; the playable area
- */
 Pacman.Map = function (size) {
     
     var height    = null, 
@@ -875,8 +1023,11 @@ Pacman.Map = function (size) {
     reset();
     
     /**
-     * @constructs Map
-     * @desc This is the default constructor for the Map class
+     * @function
+     * @memberof Pacman.Map#
+     * @desc This is essentially the default constructor for the Map class.
+     *       It automatically gets called when the following code is executed:
+     *       <br>new Pacman.Map();</br>
      */
     function Map() {
     return {
@@ -897,13 +1048,6 @@ Pacman.Map = function (size) {
     return Map();
 };
 
-/**
- * @ignore
- * @class
- * @hideconstructor
- * @name Audio
- * @classdesc This class defines all of the audio for the game
- */
 Pacman.Audio = function(game) {
     
     var files          = [], 
@@ -978,8 +1122,11 @@ Pacman.Audio = function(game) {
     };
     
     /**
-     * @constructs Audio
-     * @desc This is the default constructor for the Audio class
+     * @function
+     * @memberof Pacman.Audio#
+     * @desc This is essentially the default constructor for the Audio class.
+     *       It automatically gets called when the following code is executed:
+     *       <br>new Pacman.Audio();</br>
      */
     function Audio() {
         return {
