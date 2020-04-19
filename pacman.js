@@ -9,6 +9,13 @@
  */
 
 /**
+ * @file Contains all the logic for the Pacman game.
+ * @author Sam Hocevar <sam@hocevar.net> Lead author who implemented this game and allowed us to use this game. 
+ * @author Binh An Pham - contributed to the integration of JSDoc
+ * @author Hunter Chambers - contributed to the integration of JSDoc
+ * @version 2.0     JSDoc Integrated
+ */
+/**
  * @global
  * @desc Human readable keyCode index
  */
@@ -138,7 +145,7 @@ Pacman.Ghost = function (game, map, colour) {
      * @param {hashmap} current - the Ghost's position attribute
      * @returns {hashmap} a new hashmap with updated coordinates for the Ghost. The Ghost's position
      *                    attribute should be assigned this new hashmap.
-     * @desc this updates the Ghost's coordinate position by subtracting or adding 1 or 2
+     * @desc This updates the Ghost's coordinate position by subtracting or adding 1 or 2
      *       to the Ghost's current x and y coordinates, based on the direction that
      *       the Ghost is traveling and if it is vulnerable or not.
      */
@@ -153,9 +160,14 @@ Pacman.Ghost = function (game, map, colour) {
             "y": addBounded(current.y, ySpeed)
         };
     };
-
-    /* Collision detection(walls) is done when a ghost lands on an
-     * exact block, make sure they dont skip over it 
+    /**
+     * @function
+     * @memberof Pacman.Ghost
+     * @param {number} x1 
+     * @param {number} x2
+     * @returns {number}
+     * @desc This add a boundary for collision detection(walls) is done when 
+     *       a ghost lands on an exact block, make sure they dont skip over it.
      */
     function addBounded(x1, x2) { 
         var rem    = x1 % 10, 
@@ -167,25 +179,49 @@ Pacman.Ghost = function (game, map, colour) {
         }
         return x1 + x2;
     };
-    
+    /**
+     * @function
+     * @memberof Pacman.Ghost#
+     * @returns {boolean}
+     * @desc This checks if a Ghost is vunerable or not.
+     */
     function isVunerable() { 
         return eatable !== null;
     };
-    
+    /**
+     * @function
+     * @memberof Pacman.Ghost#
+     * @returns {boolean}
+     * @desc This checks if a Ghost is dangerous or not.
+     */
     function isDangerous() {
         return eaten === null;
     };
-
+    /**
+     * @function
+     * @memberof Pacman.Ghost#
+     * @returns {boolean}
+     * @desc This checks if a Ghost is hidden or not.
+     */
     function isHidden() { 
         return eatable === null && eaten !== null;
     };
-    
+    /**
+     * @function
+     * @memberof Pacman.Ghost
+     * @returns {number}
+     * @desc This returns a random value for direction.
+     */
     function getRandomDirection() {
         var moves = (direction === LEFT || direction === RIGHT) 
             ? [UP, DOWN] : [LEFT, RIGHT];
         return moves[Math.floor(Math.random() * 2)];
     };
-    
+    /**
+     * @function
+     * @memberof Pacman.Ghost#
+     * @desc This sets all of the Ghost's attributes to their initial values.
+     */
     function reset() {
         eaten = null;
         eatable = null;
@@ -193,31 +229,75 @@ Pacman.Ghost = function (game, map, colour) {
         direction = getRandomDirection();
         due = getRandomDirection();
     };
-    
+    /**
+     * @function
+     * @memberof Pacman.Ghost#
+     * @param {number} x - Ghost's coordinate position on the x OR y coordinate plane.
+     * @returns {boolean} true if the Ghost is on a 'whole square', otherwise false.
+     * @desc This function mods parameter x by 10 and checks if that evaluates to 0.
+     *       Mod by 10 because a 'whole sqaure' is definded as a 10x10 square.
+     */
     function onWholeSquare(x) {
         return x % 10 === 0;
     };
-    
+    /**
+     * @function
+     * @memberof Pacman.Ghost
+     * @param {number} dir - the Ghost's direction attribute
+     * @returns {boolean}
+     * @desc This returns the opposite direction of Ghost's current direction.
+     */
     function oppositeDirection(dir) { 
         return dir === LEFT && RIGHT ||
             dir === RIGHT && LEFT ||
             dir === UP && DOWN || UP;
     };
-
+    /**
+     * @function
+     * @memberof Pacman.Ghost
+     * @desc This makes Ghost eatable by assigning game.getTick() to eatable 
+     *       and making Ghost turns to the opposite direction.
+     */
     function makeEatable() {
         direction = oppositeDirection(direction);
         eatable = game.getTick();
     };
-
+    /**
+     * @function
+     * @memberof Pacman.Ghost#
+     * @desc This handles what happens after the "eat" event between User and Ghost, 
+     *       resetting Ghost eatable to null and assigning game.getTick() to eaten.
+     */
     function eat() { 
         eatable = null;
         eaten = game.getTick();
     };
-
+    /**
+     * @function
+     * @memberof Pacman.Ghost
+     * @param {number} x - Ghost's coordinate position on the x OR y coordinate plane.
+     * @returns {number} parameter x rounded to the nearest whole number.
+     * @desc Simply round parameter x to the nearest whole number. Dealing with whole
+     *       numbers helps simplify other calculations when drawing the User and Ghosts
+     *       to the game screen.
+     */
     function pointToCoord(x) {
         return Math.round(x / 10);
     };
-
+   /**
+     * @function
+     * @memberof Pacman.Ghost
+     * @param {number} x - Ghost's coordinate position on the x OR y coordinate plane.
+     * @param {number} dir - Ghost's current direction attribute.
+     * @returns {number} the coordinate position of the next square the Ghost should travel to.
+     * @desc Mod parameter x by 10 (rem = x % 10) since a 'whole square' is defined as a 10x10 square. Then handle
+     *       these three cases: a) rem == 0. If that is the case, then the Ghost is already in the
+     *       center of a square so return x. b) rem != 0 and (dir == global RIGHT or dir == global DOWN).
+     *       If that is the case, then subract rem from 10 to find out the distance the Ghost is from
+     *       the next square. Then add that to x and return. c) rem != 0 and (dir == global LEFT or dir == global UP).
+     *       If that is the case, then simply subtract rem from x to find out the distance the Ghost is
+     *       from the next square and return.
+     */
     function nextSquare(x, dir) {
         var rem = x % 10;
         if (rem === 0) { 
@@ -228,15 +308,32 @@ Pacman.Ghost = function (game, map, colour) {
             return x - rem;
         }
     };
-
+    /**
+     * @function
+     * @memberof Pacman.User
+     * @returns {boolean} true if Ghost is in the center of a square, otherwise false.
+     * @desc Determine if the Ghost is in the center of a square or not.
+     *       Calls onWholeSquare() twice (passing the Ghost's x and y coordinates) to determine.
+     */
     function onGridSquare(pos) {
         return onWholeSquare(pos.y) && onWholeSquare(pos.x);
     };
-
+    /**
+     * @function
+     * @memberof Pacman.Ghost
+     * @param {number} tick
+     * @returns {number} 
+     * @desc This serves as a helper function for getColour(), keeping track of Ghost's time on the canvas.
+     */
     function secondsAgo(tick) { 
         return (game.getTick() - tick) / Pacman.FPS;
     };
-
+    /**
+     * @function
+     * @memberof Pacman.Ghost
+     * @returns {string} - hex string represents the colour of Ghost
+     * @desc This returns the colour of Ghost base on its states, i.e. eaten?, eatable?.
+     */
     function getColour() { 
         if (eatable) { 
             if (secondsAgo(eatable) > 5) { 
@@ -249,7 +346,12 @@ Pacman.Ghost = function (game, map, colour) {
         } 
         return colour;
     };
-
+    /**
+     * @function
+     * @memberof Pacman.Ghost#
+     * @param {canvas} ctx - the area on the web page that will be the game area
+     * @desc Draw the Ghost to the canvas based on the Ghost's attributes.
+     */
     function draw(ctx) {
   
         var s    = map.blockSize, 
@@ -313,7 +415,13 @@ Pacman.Ghost = function (game, map, colour) {
         ctx.fill();
 
     };
-
+    /**
+     * @function 
+     * @memberof Pacman.Ghost
+     * @param {hashmap} pos - a hashmap contains the current x,y coordinates of Ghost
+     * @returns {(hashmap|boolean)}
+     * @desc This serves as a helper function to move(), updating the coordinates of Ghost on pane.
+     */
     function pane(pos) {
 
         if (pos.y === 100 && pos.x >= 190 && direction === RIGHT) {
@@ -326,7 +434,13 @@ Pacman.Ghost = function (game, map, colour) {
 
         return false;
     };
-    
+    /**
+     * @function
+     * @memberof Pacman.Ghost#
+     * @returns {hashmap} this is a hashmap of hashmaps. key 'old' has the Ghost's original position attribute.
+     *                    key 'new' has the newly updated coordinate positions for the User.
+     * @desc This function simply calculates and updates the Ghost's position attribute as needed.
+     */
     function move(ctx) {
         
         var oldPos = position,
@@ -591,7 +705,7 @@ Pacman.User = function (game, map) {
      * @param {number} x - User's coordinate position on the x OR y coordinate plane.
      * @returns {boolean} - true if the User is on a 'whole square', otherwise false.
      * @desc This function mods parameter x by 10 and checks if that evaluates to 0.
-     *       Mod by 10 because a 'whole sqaure' is definded as a 10x10 square.
+     *       Mod by 10 because a 'whole square' is definded as a 10x10 square.
      */
     function onWholeSquare(x) {
         return x % 10 === 0;
@@ -656,7 +770,7 @@ Pacman.User = function (game, map) {
      * @memberof Pacman.User
      * @returns {boolean} true if User is in the center of a square, otherwise false.
      * @desc Determine if the User is in the center of a square or not.
-     *       Calss onWholeSquare() twice (passing the User's x and y coordinates) to determine.
+     *       Calls onWholeSquare() twice (passing the User's x and y coordinates) to determine.
      */
     function onGridSquare(pos) {
         return onWholeSquare(pos.y) && onWholeSquare(pos.x);
@@ -760,7 +874,7 @@ Pacman.User = function (game, map) {
      * @memberof Pacman.User
      * @param {number} x - the User's cooridnate position on the x OR y coordinate plane
      * @returns {boolean} true if (x % 10) > 3 or (x % 10) < 7
-     * @desc The User is considered in between two sqaures if x % 10 is greater than 3 or less than 7
+     * @desc The User is considered in between two squares if x % 10 is greater than 3 or less than 7
      */
     function isMidSquare(x) { 
         var rem = x % 10;
